@@ -2,7 +2,7 @@
     <!-- Login Form -->
     <div class=" text-white text-center font-bold p-5 mb-4" v-if="login_show_alert" :class="login_alert_variant">{{
         login_alert_message }}</div>
-    <vee-form :validation-schema="loginSchema" @submit="login">
+    <vee-form :validation-schema="loginSchema" @submit="login" ref="loginForm">
         <!-- Email -->
         <div class="mb-3">
             <label class="inline-block mb-2">Email</label>
@@ -17,7 +17,7 @@
                 duration-500 focus:outline-none focus:border-black rounded" placeholder="Password" />
             <ErrorMessage class=" text-red-600" name="password" />
         </div>
-        <button :disabled="login_in_submission" type="submit" class="block w-full bg-purple-600 text-white py-1.5 px-3 rounded transition
+        <button :disabled="login_in_submission" type="submit" class="block w-full bg-purple-600 text-white py-1.5 px-3 rounded transition cursor-pointer
                 hover:bg-purple-700">
             Submit
         </button>
@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import { supabase } from '../../includes/supabase';
+
 
 export default {
 
@@ -57,21 +57,17 @@ export default {
 
             try {
 
-                const { data, error, } = await supabase.auth.signInWithPassword({
-                    email: values.email,
-                    password: values.password,
-                })
-                this.login_alert_variant = "bg-green-500"
-                this.login_alert_message = "Success! You are logged in..."
-                this.$store.commit(`setUserData(${data})`);
-                this.$store.commit('toggleAuthModal');
-                console.log(data, error);
+                await this.$store.dispatch('login', values)
+                this.$refs.loginForm.reset()
 
             } catch (err) {
                 this.login_alert_variant = "bg-red-500"
                 this.login_alert_message = `Login failed : ${err}`
 
             }
+            this.login_alert_variant = "bg-green-500"
+            this.login_alert_message = "Success! You are logged in..."
+            // window.location.reload()
             // console.log(values);
         }
     },

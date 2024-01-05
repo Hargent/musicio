@@ -67,9 +67,6 @@
 </template>
 
 <script>
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../../includes/firebase';
-import { supabase } from "../../includes/supabase"
 export default {
     name: "RegisterForm",
     data() {
@@ -101,22 +98,8 @@ export default {
 
             try {
 
-                const { data, error } = await supabase.auth.signUp(
-                    {
-                        email: values.email,
-                        password: values.password,
-                        options: {
-                            data: {
-                                displayName: values.name,
-                                age: values.age,
-                                country: values.country
-                            }
-                        }
-                    }
-                )
-                console.log(data, error);
-                // const userCredential = await createUserWithEmailAndPassword(auth, values.email, values.password)
-                // console.log(userCredential);
+                await this.$store.dispatch('register', values)
+
             }
             catch (error) {
                 this.reg_in_submission = false;
@@ -131,10 +114,11 @@ export default {
             };
 
             this.reg_alert_variant = "bg-green-500"
-            this.reg_alert_message = "Success! Your account has been created..."
+            this.reg_alert_message = `Success! Verification email sent to ${values.email}...`
 
+            // window.location.reload()
 
-            console.log(values);
+            // console.log(values);
         }
     },
 };

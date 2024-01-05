@@ -1,17 +1,27 @@
 // 1. Define route components.
 
-import { createRouter, createWebHashHistory } from "vue-router";
+import { createRouter, createWebHistory } from "vue-router";
 
-// These can be imported from other files
-const Home = { template: "<div>Home</div>" };
-const About = { template: "<div>About</div>" };
+import AppAbout from "../views/app-about.vue";
+import AppHome from "../views/app-home.vue";
+import AppManage from "../views/app-manage.vue";
+import PageNotFound from "../views/page-not-found.vue";
 
 const routes = [
-  //   { path: "/", component: Home },
-  //   { path: "/about", component: About }
+  { name: "home", path: "/", component: AppHome },
+  { name: "about", path: "/about", component: AppAbout },
+  {
+    name: "manage",
+    path: "/manage",
+    alias: "/manage-music",
+    component: AppManage
+  },
+  { name: "404", path: "/:catchAll(.*)*", component: PageNotFound }
 ];
 
 export const router = createRouter({
-  history: createWebHashHistory(),
-  routes
+  history: createWebHistory(),
+  // history: createWebHashHistory(),
+  routes,
+  linkExactActiveClass: "text-yellow-500"
 });
