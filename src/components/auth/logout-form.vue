@@ -26,8 +26,15 @@ export default {
 
     methods: {
         ...mapMutations(['toggleLogoutModal']),
+        logout() {
+            this.$store.dispatch("logout")
+            if (this.$route.meta.requiresAuth) {
+                this.$router.push({ name: "home" })
 
-        ...mapActions(['logout'])
+            }
+        }
+        // ...mapActions(['logout'])
+
     }
 
 };
