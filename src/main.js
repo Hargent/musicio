@@ -1,6 +1,6 @@
 import "./style.css";
 
-import App from "./App.vue";
+import App from "./app.vue";
 import IconsPlugin from "./includes/font-awesome";
 import VeeValidatePlugin from "./includes/validation";
 import { createApp } from "vue";
